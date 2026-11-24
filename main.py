@@ -3,9 +3,17 @@
 Writes exactly one letter, "K", to $MAKEFUN_OUTPUT_DIR/entry.txt
 (default /output/entry.txt) and prints it.
 
-The letter K stands for the word behind the day: "knackered" — utterly
-spent after a long Tuesday of grinding. The program output is the single
-letter only: no word, no gloss, no punctuation, no trailing newline.
+Why K? The letter stands for the word behind the day: "knackered" —
+utterly spent after a long Tuesday of grinding. It is more vivid and
+funnier than the obvious "tired" or "exhausted", and it dodges the
+crowd: the brief's own examples are A, F and Z, and the obvious
+T-for-tired will be crowded too, while byte-identical entries share a
+single rate — so the earlier receipt places above any later copies.
+
+Brief compliance: the output file holds exactly one letter, "K", with
+no trailing newline, no word, no gloss and no punctuation. The word
+"knackered" lives only in this docstring and in the HIDDEN_WORD
+constant; it never reaches the output.
 """
 
 import os
@@ -13,9 +21,17 @@ import sys
 
 LETTER = "K"
 
+# The word behind the letter: "knackered" — K is its initial.
+HIDDEN_WORD = "knackered"
+
 
 def main() -> int:
-    # Validate: exactly one character, a letter A-Z.
+    # Validate: the letter is the initial of the hidden word, and is a
+    # single A-Z character. The choice is fixed; any drift is a bug.
+    if LETTER != HIDDEN_WORD[0].upper():
+        print(f"letter {LETTER!r} is not the initial of {HIDDEN_WORD!r}",
+              file=sys.stderr)
+        return 1
     if len(LETTER) != 1 or not ("A" <= LETTER <= "Z"):
         print(f"invalid letter: {LETTER!r}", file=sys.stderr)
         return 1
